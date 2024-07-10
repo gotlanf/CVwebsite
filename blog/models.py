@@ -24,6 +24,12 @@ class Post(models.Model):
     updated_date = models.DateTimeField(auto_now=True)
     published_date = jmodels.jDateTimeField(null=True, blank=True)
 
+    def get_next(self):
+        return Post.objects.filter(id__gt=self.id).order_by('id').first()
+
+    def get_previous(self):
+        return Post.objects.filter(id__lt=self.id).order_by('-id').first()
+
     def __str__(self):
         return self.title
 
